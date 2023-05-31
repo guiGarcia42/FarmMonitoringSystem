@@ -2,6 +2,7 @@ import 'package:farm_monitoring_system/utils/data.dart';
 import 'package:farm_monitoring_system/screens/view_images/image_detail.dart';
 import 'package:farm_monitoring_system/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ImageGallery extends StatefulWidget {
   const ImageGallery({super.key});
@@ -15,6 +16,22 @@ class _ImageGalleryState extends State<ImageGallery> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBackgroundColor,
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          "Captured Images this Week",
+          style: GoogleFonts.anton(fontSize: 25),
+        ),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: <Color>[kBackgroundColor, kAppBarColor],
+            ),
+          ),
+        ),
+      ),
       body: Column(
         children: [
           Expanded(

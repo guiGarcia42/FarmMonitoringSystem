@@ -1,3 +1,4 @@
+import 'package:farm_monitoring_system/shared/ai_alert.dart';
 import 'package:farm_monitoring_system/shared/detail_field.dart';
 import 'package:farm_monitoring_system/utils/data.dart';
 import 'package:farm_monitoring_system/utils/constants.dart';
@@ -51,143 +52,131 @@ class ImageDetail extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
-      body: Column(
-        children: [
-          Container(
-            height: 300,
-            margin: EdgeInsets.only(bottom: 16),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(capturedImage.imageUrl),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: SafeArea(
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.center,
+            colors: <Color>[kBackgroundColor, kAppBarColor],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        ),
+        child: Column(
+          children: [
+            Container(
+              height: 300,
               decoration: BoxDecoration(
-                color: Color(0xFFF4BA0B),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
+                image: DecorationImage(
+                  image: AssetImage(capturedImage.imageUrl),
+                  fit: BoxFit.cover,
                 ),
               ),
-              child: Row(
-                children: [
-                  Container(
-                    height: 60,
-                    width: 60,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 2),
-                    ),
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Icon(
-                        Icons.warning_amber_rounded,
-                        size: 50,
+              child: SafeArea(
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: 15,
+                ),
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              height: 40,
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              decoration: BoxDecoration(
+                color: kAppBarColor,
+                borderRadius:
+                    const BorderRadius.vertical(bottom: Radius.circular(15)),
+                boxShadow: [
+                  BoxShadow(
+                    color: kSecondaryColor.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3),
                   ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          capturedImage.id,
-                        )
-                      ],
+                ],
+              ),
+              child: const Text(
+                "Image Details:",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: AiAlert(capturedImage: capturedImage),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch, //VER
+                  children: [
+                    DetailField(
+                      title: "Image Id:",
+                      data: capturedImage.id,
                     ),
-                  ),
-                ],
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    DetailField(
+                      title: "Drone Id:",
+                      data: capturedImage.droneId,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    DetailField(
+                      title: "Drone Coordinates:",
+                      data: capturedImage.droneCoordinates,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    DetailField(
+                      title: "Plant Specie:",
+                      data: plantSpecie,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    DetailField(
+                      title: "Pests:",
+                      data: pest,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    DetailField(
+                      title: "Does it needs more Nutrients?",
+                      data: needNutrient,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    DetailField(
+                      title: "Does it needs more Irrigation?",
+                      data: needIrrigation,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch, //VER
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  DetailField(
-                    title: "Image Id:",
-                    data: capturedImage.id,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  DetailField(
-                    title: "Drone Id:",
-                    data: capturedImage.droneId,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  DetailField(
-                    title: "Drone Coordinates:",
-                    data: capturedImage.droneCoordinates,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  DetailField(
-                    title: "Plant Specie:",
-                    data: plantSpecie,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  DetailField(
-                    title: "Pests:",
-                    data: pest,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  DetailField(
-                    title: "Does it needs more Nutrients?",
-                    data: needNutrient,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  DetailField(
-                    title: "Does it needs more Irrigation?",
-                    data: needIrrigation,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

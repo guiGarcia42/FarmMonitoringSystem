@@ -1,4 +1,5 @@
 import 'package:farm_monitoring_system/screens/home_page/home_page.dart';
+import 'package:farm_monitoring_system/screens/image_history/image_history.dart';
 import 'package:farm_monitoring_system/screens/view_images/image_gallery.dart';
 import 'package:flutter/material.dart';
 import 'package:farm_monitoring_system/utils/constants.dart';
@@ -28,13 +29,14 @@ class _MasterState extends State<Master> {
       children: [
         HomePage(),
         ImageGallery(),
+        ImageHistory(),
       ],
     );
   }
 
   Widget getBottomNavigationBar() {
     return BottomNavigationBar(
-      backgroundColor: kBottomNavigationBar,
+      backgroundColor: kSecondaryColor,
       selectedItemColor: kPrimaryColor,
       unselectedItemColor: Colors.grey[400],
       currentIndex: page,
@@ -45,7 +47,7 @@ class _MasterState extends State<Master> {
           },
         );
       },
-      items: [
+      items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',

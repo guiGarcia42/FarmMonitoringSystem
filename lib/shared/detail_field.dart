@@ -9,18 +9,24 @@ class DetailField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: kSecondaryColor,
-        borderRadius: BorderRadius.all(
-          Radius.circular(20),
-        ),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        boxShadow: [
+          BoxShadow(
+            color: kPrimaryColor.withOpacity(0.4),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: Row(
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
           ),
           SizedBox(
