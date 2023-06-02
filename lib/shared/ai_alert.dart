@@ -1,37 +1,28 @@
+import 'package:farm_monitoring_system/controller/farm_image_controller.dart';
+import 'package:farm_monitoring_system/models/ai_data.dart';
 import 'package:farm_monitoring_system/utils/constants.dart';
-import 'package:farm_monitoring_system/utils/data.dart';
 import 'package:flutter/material.dart';
 
 class AiAlert extends StatelessWidget {
-  final CapturedImage capturedImage;
-  const AiAlert({super.key, required this.capturedImage});
+  final AiData aiData;
+  const AiAlert({super.key, required this.aiData});
 
   @override
   Widget build(BuildContext context) {
-    String aiRecomendation = "";
-    if (capturedImage.pests != Pests.none) {
-      aiRecomendation += "Fumigate the area against pests\n";
-    }
-    if (capturedImage.needNutrient) {
-      aiRecomendation += "Fertilize the soil with more nutrients\n";
-    }
-    if (capturedImage.needIrrigation) {
-      aiRecomendation += "Water the soil";
-    }
-    print(aiRecomendation);
+    final farmImageController = FarmImageController();
 
-    if (capturedImage.recomendation) {
+    if (aiData.recomendation) {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: kAlertColor,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           boxShadow: [
             BoxShadow(
               color: kAlertColor.withOpacity(0.4),
               spreadRadius: 5,
               blurRadius: 7,
-              offset: Offset(0, 3),
+              offset: const Offset(0, 3),
             ),
           ],
         ),
@@ -40,6 +31,7 @@ class AiAlert extends StatelessWidget {
             Container(
               height: 60,
               width: 60,
+              margin: const EdgeInsets.only(right: 15),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white, width: 2),
@@ -52,12 +44,9 @@ class AiAlert extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(
-              width: 15,
-            ),
             Expanded(
               child: Text(
-                aiRecomendation,
+                farmImageController.getAiRecomendation(aiData),
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,

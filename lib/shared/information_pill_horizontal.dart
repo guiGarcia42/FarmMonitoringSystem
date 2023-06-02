@@ -15,16 +15,16 @@ class HorizontalInfoPill extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           color: theme,
           boxShadow: [
             BoxShadow(
               color: theme.withOpacity(0.3),
               spreadRadius: 5,
               blurRadius: 7,
-              offset: Offset(0, 3),
+              offset: const Offset(0, 3),
             ),
           ],
         ),
@@ -33,6 +33,7 @@ class HorizontalInfoPill extends StatelessWidget {
             Container(
               height: 60,
               width: 60,
+              margin: const EdgeInsets.only(right: 15),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white, width: 4),
@@ -48,9 +49,6 @@ class HorizontalInfoPill extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              width: 15,
             ),
             Expanded(
               child: Text(

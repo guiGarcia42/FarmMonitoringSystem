@@ -19,8 +19,8 @@ class _ImageGalleryState extends State<ImageGallery> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Captured Images this Week",
-          style: GoogleFonts.anton(fontSize: 25),
+          "Captured Images in the last 7 days",
+          style: GoogleFonts.anton(fontSize: 20),
         ),
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -32,59 +32,51 @@ class _ImageGalleryState extends State<ImageGallery> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: GridView.builder(
-              itemCount: getCapturedImage().length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-              ),
-              itemBuilder: (_, index) {
-                if (getCapturedImage().isNotEmpty) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return ImageDetail(
-                              capturedImage:
-                                  getCapturedImage().elementAt(index),
-                            );
-                          },
-                        ),
+      body: GridView.builder(
+        itemCount: capturedImagesData.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+        ),
+        itemBuilder: (_, index) {
+          if (capturedImagesData.isNotEmpty) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ImageDetail(
+                        capturedImage: capturedImagesData[index],
                       );
                     },
-                    child: Container(
-                      padding: const EdgeInsets.all(6),
-                      margin: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(
-                              getCapturedImage().elementAt(index).imageUrl),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      child: Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Text(
-                          getCapturedImage().elementAt(index).id,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                } else {
-                  return Container();
-                }
+                  ),
+                );
               },
-            ),
-          ),
-        ],
+              child: Container(
+                padding: const EdgeInsets.all(6),
+                margin: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(capturedImagesData[index].imageUrl),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    capturedImagesData[index].id,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          } else {
+            return const Text("Something went wrong");
+          }
+        },
       ),
     );
   }

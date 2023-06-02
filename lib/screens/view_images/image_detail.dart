@@ -1,54 +1,19 @@
+import 'package:farm_monitoring_system/controller/farm_image_controller.dart';
+import 'package:farm_monitoring_system/models/captured_image.dart';
 import 'package:farm_monitoring_system/shared/ai_alert.dart';
 import 'package:farm_monitoring_system/shared/detail_field.dart';
-import 'package:farm_monitoring_system/utils/data.dart';
 import 'package:farm_monitoring_system/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ImageDetail extends StatelessWidget {
   final CapturedImage capturedImage;
 
-  const ImageDetail({
-    super.key,
-    required this.capturedImage,
-  });
+  const ImageDetail({super.key, required this.capturedImage});
 
   @override
   Widget build(BuildContext context) {
-    String plantSpecie = "Not Identified";
-    String pest = "Not Identified";
-    String needNutrient = "No";
-    String needIrrigation = "No";
-
-    switch (capturedImage.plantSpecie) {
-      case PlantSpecies.caneSugar:
-        plantSpecie = "Cane Sugar";
-        break;
-      case PlantSpecies.maize:
-        plantSpecie = "Maize";
-        break;
-      case PlantSpecies.wheat:
-        plantSpecie = "Wheat";
-        break;
-    }
-
-    switch (capturedImage.pests) {
-      case Pests.rodents:
-        pest = "Rodents";
-        break;
-      case Pests.cerealLeafBeetle:
-        pest = "Cereal Leaf Beetle";
-        break;
-      case Pests.armyworms:
-        pest = "Armyworms";
-        break;
-    }
-
-    if (capturedImage.needNutrient) {
-      needNutrient = "Yes";
-    }
-    if (capturedImage.needIrrigation) {
-      needIrrigation = "Yes";
-    }
+    final farmImageController = FarmImageController();
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -116,7 +81,7 @@ class ImageDetail extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: AiAlert(capturedImage: capturedImage),
+              child: AiAlert(aiData: capturedImage.aiData),
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -129,47 +94,38 @@ class ImageDetail extends StatelessWidget {
                       title: "Image Id:",
                       data: capturedImage.id,
                     ),
-                    const SizedBox(
-                      height: 10,
+                    DetailField(
+                      title: "Image Date:",
+                      data: DateFormat('dd/MM/yyyy')
+                          .format(capturedImage.date)
+                          .toString(),
                     ),
                     DetailField(
                       title: "Drone Id:",
                       data: capturedImage.droneId,
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     DetailField(
                       title: "Drone Coordinates:",
                       data: capturedImage.droneCoordinates,
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     DetailField(
                       title: "Plant Specie:",
-                      data: plantSpecie,
-                    ),
-                    const SizedBox(
-                      height: 10,
+                      data: farmImageController
+                          .getPlantSpecie(capturedImage.aiData),
                     ),
                     DetailField(
                       title: "Pests:",
-                      data: pest,
-                    ),
-                    const SizedBox(
-                      height: 10,
+                      data: farmImageController.getPest(capturedImage.aiData),
                     ),
                     DetailField(
                       title: "Does it needs more Nutrients?",
-                      data: needNutrient,
-                    ),
-                    const SizedBox(
-                      height: 10,
+                      data: farmImageController
+                          .getNeedNutrients(capturedImage.aiData),
                     ),
                     DetailField(
                       title: "Does it needs more Irrigation?",
-                      data: needIrrigation,
+                      data: farmImageController
+                          .getNeedIrrigation(capturedImage.aiData),
                     ),
                   ],
                 ),

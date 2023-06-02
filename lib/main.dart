@@ -1,4 +1,4 @@
-import 'package:farm_monitoring_system/screens/master.dart';
+import '/screens/master.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

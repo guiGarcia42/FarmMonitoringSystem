@@ -9,6 +9,7 @@ class DetailField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: kSecondaryColor,
@@ -29,12 +30,12 @@ class DetailField extends StatelessWidget {
             style: const TextStyle(
                 color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
           ),
-          SizedBox(
-            width: 10,
+          const SizedBox(
+            width: 5,
           ),
           Text(
             data,
-            style: TextStyle(color: Colors.white, fontSize: 15),
+            style: const TextStyle(color: Colors.white, fontSize: 15),
           ),
         ],
       ),

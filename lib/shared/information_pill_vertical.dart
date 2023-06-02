@@ -16,53 +16,49 @@ class VerticalInfoPill extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           color: theme,
           boxShadow: [
             BoxShadow(
               color: theme.withOpacity(0.3),
               spreadRadius: 5,
               blurRadius: 7,
-              offset: Offset(0, 3),
+              offset: const Offset(0, 3),
             ),
           ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: Container(
-                height: 100,
-                width: 100,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 6),
-                ),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "$data",
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
-                    ),
+            Container(
+              height: 100,
+              width: 100,
+              margin: const EdgeInsets.only(bottom: 12),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white, width: 6),
+              ),
+              child: Align(
+                alignment: Alignment.center,
+                child: Text(
+                  "$data",
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Text(
-                description,
-                textAlign: TextAlign.center,
-                style: GoogleFonts.anton(
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
+            Text(
+              description,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.anton(
+                color: Colors.white,
+                fontSize: 18,
               ),
             ),
           ],

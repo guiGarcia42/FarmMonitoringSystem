@@ -1,3 +1,4 @@
+import 'package:farm_monitoring_system/controller/farm_image_controller.dart';
 import 'package:farm_monitoring_system/shared/description_text.dart';
 import 'package:farm_monitoring_system/shared/information_pill_horizontal.dart';
 import 'package:farm_monitoring_system/shared/information_pill_vertical.dart';
@@ -11,20 +12,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int recentProblemsFound = 0;
-    int totalProblems = 87;
-
-    for (var i = 0; i < getCapturedImage().length; i++) {
-      if (getCapturedImage().elementAt(i).pests != Pests.none) {
-        recentProblemsFound++;
-      }
-      if (getCapturedImage().elementAt(i).needNutrient) {
-        recentProblemsFound++;
-      }
-      if (getCapturedImage().elementAt(i).needIrrigation) {
-        recentProblemsFound++;
-      }
-    }
+    final farmImageController = FarmImageController();
 
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -51,16 +39,18 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                margin: const EdgeInsets.only(bottom: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
                   color: kSecondaryColor,
                   boxShadow: [
                     BoxShadow(
                       color: kSecondaryColor.withOpacity(0.5),
                       spreadRadius: 5,
                       blurRadius: 7,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
@@ -74,15 +64,12 @@ class HomePage extends StatelessWidget {
                         fontSize: 20,
                       ),
                     ),
-                    DescriptionText(
+                    const DescriptionText(
                       text:
                           "This application is designed to monitor plantations using drones and generative AI. The system comprises drones that monitor crops, capturing images and sending them to a generative AI. Here you can see general information about the system and the monitored plantations, along with captured images in a gallery showing all the information extracted by the generative AI for each selected image, including crop identification, pest and disease detection, nutrient deficiency, and irrigation needs. It presents tailored recommendations from the AI to enhance crop productivity.",
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(
-                height: 12,
               ),
               Row(
                 children: [
@@ -91,22 +78,20 @@ class HomePage extends StatelessWidget {
                     description: "Active Drones",
                     theme: kSecondaryColor,
                   ),
-                  SizedBox(
-                    width: 10,
+                  const SizedBox(
+                    width: 12,
                   ),
                   HorizontalInfoPill(
-                    data: getCapturedImage().length,
+                    data: capturedImagesData.length,
                     description: "Captured Images",
                     theme: kSecondaryColor,
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 12,
-              ),
               Container(
+                margin: const EdgeInsets.symmetric(vertical: 12),
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    const EdgeInsets.symmetric(horizontal: 5, vertical: 12),
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                   color: kAlertColor,
@@ -115,7 +100,7 @@ class HomePage extends StatelessWidget {
                       color: kAlertColor.withOpacity(0.3),
                       spreadRadius: 5,
                       blurRadius: 7,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
@@ -127,16 +112,10 @@ class HomePage extends StatelessWidget {
                       color: Colors.white,
                       size: 30,
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
                     Text(
                       "Important Information",
                       style: GoogleFonts.bebasNeue(
                           fontSize: 30, color: Colors.white),
-                    ),
-                    const SizedBox(
-                      width: 10,
                     ),
                     const Icon(
                       Icons.warning_amber_rounded,
@@ -146,21 +125,18 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 12,
-              ),
               Row(
                 children: [
                   VerticalInfoPill(
-                    data: recentProblemsFound,
+                    data: farmImageController.getRecentProblemsFound(),
                     description: "Recent Problems Found",
                     theme: kAlertColor,
                   ),
-                  SizedBox(
-                    width: 10,
+                  const SizedBox(
+                    width: 12,
                   ),
                   VerticalInfoPill(
-                    data: totalProblems,
+                    data: farmImageController.totalProblems,
                     description: "Total Problems Found",
                     theme: kAlertColor,
                   ),
