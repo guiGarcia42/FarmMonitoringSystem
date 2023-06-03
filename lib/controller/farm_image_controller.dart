@@ -1,7 +1,6 @@
 import 'package:farm_monitoring_system/models/ai_data.dart';
 import 'package:farm_monitoring_system/models/captured_image.dart';
 import 'package:farm_monitoring_system/utils/data.dart';
-import 'package:intl/intl.dart';
 
 class FarmImageController {
   List<CapturedImage> recentCapturedImages = [];
