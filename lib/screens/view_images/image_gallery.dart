@@ -1,3 +1,4 @@
+import 'package:farm_monitoring_system/controller/farm_image_controller.dart';
 import 'package:farm_monitoring_system/utils/data.dart';
 import 'package:farm_monitoring_system/screens/view_images/image_detail.dart';
 import 'package:farm_monitoring_system/utils/constants.dart';
@@ -12,6 +13,13 @@ class ImageGallery extends StatefulWidget {
 }
 
 class _ImageGalleryState extends State<ImageGallery> {
+  final farmImageController = FarmImageController();
+  @override
+  void initState() {
+    farmImageController.getRecentCapturedImages();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,49 +41,46 @@ class _ImageGalleryState extends State<ImageGallery> {
         ),
       ),
       body: GridView.builder(
-        itemCount: capturedImagesData.length,
+        itemCount: farmImageController.recentCapturedImages.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
         ),
         itemBuilder: (_, index) {
-          if (capturedImagesData.isNotEmpty) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return ImageDetail(
-                        capturedImage: capturedImagesData[index],
-                      );
-                    },
-                  ),
-                );
-              },
-              child: Container(
-                padding: const EdgeInsets.all(6),
-                margin: const EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(capturedImagesData[index].imageUrl),
-                    fit: BoxFit.cover,
-                  ),
+          return GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ImageDetail(
+                      capturedImage:
+                          farmImageController.recentCapturedImages[index],
+                    );
+                  },
                 ),
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
-                    capturedImagesData[index].id,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(6),
+              margin: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(allTimeCapturedImagesData[index].imageUrl),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  allTimeCapturedImagesData[index].id,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
               ),
-            );
-          } else {
-            return const Text("Something went wrong");
-          }
+            ),
+          );
         },
       ),
     );

@@ -1,25 +1,53 @@
 import 'package:farm_monitoring_system/models/ai_data.dart';
+import 'package:farm_monitoring_system/models/captured_image.dart';
 import 'package:farm_monitoring_system/utils/data.dart';
+import 'package:intl/intl.dart';
 
 class FarmImageController {
-  int totalProblems = 50;
+  List<CapturedImage> recentCapturedImages = [];
+
+  int getTotalProblemsFound() {
+    int recentProblemsFound = 0;
+
+    for (var i = 0; i < allTimeCapturedImagesData.length; i++) {
+      var aiData = allTimeCapturedImagesData[i].aiData;
+      if (aiData.pests != Pests.none) {
+        recentProblemsFound++;
+      }
+      if (aiData.needNutrient) {
+        recentProblemsFound++;
+      }
+      if (aiData.needIrrigation) {
+        recentProblemsFound++;
+      }
+    }
+    return recentProblemsFound;
+  }
+
+  List<CapturedImage> getRecentCapturedImages() {
+    for (var i = 0; i < allTimeCapturedImagesData.length; i++) {
+      if (allTimeCapturedImagesData[i]
+          .date
+          .isAfter(DateTime.now().subtract(const Duration(days: 7)))) {
+        recentCapturedImages.add(allTimeCapturedImagesData[i]);
+      }
+    }
+    return recentCapturedImages;
+  }
 
   int getRecentProblemsFound() {
     int recentProblemsFound = 0;
 
-    for (var i = 0; i < capturedImagesData.length; i++) {
-      var aiData = capturedImagesData[i].aiData;
+    for (var i = 0; i < recentCapturedImages.length; i++) {
+      var aiData = recentCapturedImages[i].aiData;
       if (aiData.pests != Pests.none) {
         recentProblemsFound++;
-        totalProblems++;
       }
       if (aiData.needNutrient) {
         recentProblemsFound++;
-        totalProblems++;
       }
       if (aiData.needIrrigation) {
         recentProblemsFound++;
-        totalProblems++;
       }
     }
     return recentProblemsFound;

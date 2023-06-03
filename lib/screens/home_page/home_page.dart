@@ -7,13 +7,23 @@ import 'package:farm_monitoring_system/utils/data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final farmImageController = FarmImageController();
+  State<HomePage> createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  final farmImageController = FarmImageController();
+  @override
+  void initState() {
+    farmImageController.getRecentCapturedImages();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
@@ -82,7 +92,7 @@ class HomePage extends StatelessWidget {
                     width: 12,
                   ),
                   HorizontalInfoPill(
-                    data: capturedImagesData.length,
+                    data: allTimeCapturedImagesData.length,
                     description: "Captured Images",
                     theme: kSecondaryColor,
                   ),
@@ -136,7 +146,7 @@ class HomePage extends StatelessWidget {
                     width: 12,
                   ),
                   VerticalInfoPill(
-                    data: farmImageController.totalProblems,
+                    data: farmImageController.getTotalProblemsFound(),
                     description: "Total Problems Found",
                     theme: kAlertColor,
                   ),
